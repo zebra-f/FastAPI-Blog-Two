@@ -50,3 +50,8 @@ class TokenResponse(BaseModel):
 class TokenData(BaseModel):
     id: Optional[int] = None
 
+
+class Vote(BaseModel):
+    post_id: int
+    dir: int
+
