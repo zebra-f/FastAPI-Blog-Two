@@ -15,6 +15,7 @@ router = APIRouter(
 
 @router.get('/', response_model=List[schemas.UserResponse], status_code=status.HTTP_200_OK)
 def get_users(db: Session = Depends(get_db)):
+    
     users = db.query(models.User).all()
     return users
 
@@ -22,18 +23,26 @@ def get_users(db: Session = Depends(get_db)):
 # CREATE USER
 @router.post('/', response_model=schemas.UserResponse, status_code=status.HTTP_201_CREATED)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
-    request.password = get_password_hash(request.password)
     
-    new_user = models.User(**request.dict())
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+    # check if request.email is already taken 
+    if db.query(models.User).filter(models.User.email == request.email):
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                            detail=f"This email already exists")
+    # if not register new user
+    else:
+        request.password = get_password_hash(request.password)
+        new_user = models.User(**request.dict())
 
-    return new_user
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+
+        return new_user
 
 
 @router.get('/{id}', response_model=schemas.UserResponse, status_code=status.HTTP_200_OK)
 def get_user(id: int, db: Session = Depends(get_db)):
+    
     user = db.query(models.User).filter(models.User.id == id).first()
     
     if user:
@@ -45,6 +54,7 @@ def get_user(id: int, db: Session = Depends(get_db)):
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(id: int, db: Session = Depends(get_db)):
+    
     user_query = db.query(models.User).filter(models.User.id == id)
 
     if user_query.first():
