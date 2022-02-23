@@ -21,10 +21,16 @@ class UpdatePost(Post):
     pass
 
 
-class UserResponse(BaseModel):
-    id: int
+class UserProfileResponse(BaseModel):
     email: str
     created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class UserResponse(UserProfileResponse):
+    id: int
 
     class Config:
         orm_mode = True
