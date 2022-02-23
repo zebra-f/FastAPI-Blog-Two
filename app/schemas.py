@@ -26,7 +26,6 @@ class UserResponse(BaseModel):
     email: str
     created_at: datetime
 
-
     class Config:
         orm_mode = True
 

@@ -17,6 +17,7 @@ router = APIRouter(
 
 @router.post('/', response_model=schemas.TokenResponse, status_code=status.HTTP_202_ACCEPTED)
 def user_login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    
     # for now pass an email as the username in a login request form
     user = db.query(models.User).filter(models.User.email == request.username).first()
     

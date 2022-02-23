@@ -26,8 +26,7 @@ def create_posts(request: schemas.CreatePost, db: Session = Depends(get_db),
     
     new_post = models.Post(
         **request.dict(), user_id = current_user.id
-        # title=request.title, content=request.content, published=request.published
-        )
+        )  # title=request.title, content=request.content, published=request.published
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
