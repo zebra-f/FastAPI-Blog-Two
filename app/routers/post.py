@@ -22,7 +22,7 @@ def get_posts(db: Session = Depends(get_db)):
 # CREATE POST
 @router.post('/', response_model=schemas.PostResponse, status_code=status.HTTP_201_CREATED)
 def create_posts(request: schemas.CreatePost, db: Session = Depends(get_db),
-            current_user: int = Depends(oauth2.get_current_user)):
+            current_user = Depends(oauth2.get_current_user)):
     
     new_post = models.Post(
         **request.dict(), user_id = current_user.id
@@ -35,8 +35,8 @@ def create_posts(request: schemas.CreatePost, db: Session = Depends(get_db),
 
 
 @router.get('/{id}', response_model=schemas.PostResponse, status_code=status.HTTP_200_OK)
-def get_post(id: int, db: Session = Depends(get_db),
-            current_user: int = Depends(oauth2.get_current_user)):
+def get_post(id: int, db: Session = Depends(get_db)):
+    
     post = db.query(models.Post).filter(models.Post.id == id).first()
 
     if post:
@@ -48,7 +48,7 @@ def get_post(id: int, db: Session = Depends(get_db),
 # DELETE POST
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db), 
-            current_user: int = Depends(oauth2.get_current_user)):
+            current_user = Depends(oauth2.get_current_user)):
     
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
@@ -68,7 +68,7 @@ def delete_post(id: int, db: Session = Depends(get_db),
 # UPDATE POST
 @router.put('/{id}', response_model=schemas.PostResponse, status_code=status.HTTP_201_CREATED)
 def update_post(id: int, request: schemas.UpdatePost, db: Session = Depends(get_db),
-            current_user: int = Depends(oauth2.get_current_user)):
+            current_user = Depends(oauth2.get_current_user)):
     
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
