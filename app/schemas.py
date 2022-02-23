@@ -3,6 +3,10 @@ from datetime import datetime
 from typing import Optional
 
 
+class Index(BaseModel):
+    Documentation: dict
+
+
 class Post(BaseModel):
     title: str
     content: str

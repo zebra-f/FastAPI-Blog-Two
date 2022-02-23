@@ -7,7 +7,7 @@ from jose import JWTError, jwt
 
 from .. import schemas, database, models
 
-# used by get_curret_user
+# used by the function get_curret_user 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -28,9 +28,9 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
 def verify_access_token(token, credentials_exception):
     '''
-    Function used by a get_current_user located in this file
-    Second argument-    credentials_exception is an HTTPException
-                        declared inside get_current_user function
+    Function used by a get_current_user located in this file.
+    Parameter(2nd)- credentials_exception is an HTTPException
+                    declared inside get_current_user function.
     '''
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

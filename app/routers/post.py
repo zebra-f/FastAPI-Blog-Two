@@ -16,7 +16,6 @@ router = APIRouter(
 @router.get('/', response_model=List[schemas.PostResponse], status_code=status.HTTP_200_OK)
 def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
-
     return posts
 
 
@@ -89,3 +88,6 @@ def update_post(id: int, request: schemas.UpdatePost, db: Session = Depends(get_
 
     else: raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"No post with an id = {id}")
+
+
+
