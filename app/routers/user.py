@@ -49,7 +49,7 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
 @router.get('/my_profile', response_model=schemas.UserProfileResponse, status_code=status.HTTP_200_OK)
 def get_logged_user_profile(db: Session = Depends(get_db),
     current_user = Depends(oauth2.get_current_user)):
-    
+
     return current_user
 
 
@@ -66,11 +66,12 @@ def get_user_by_id(id: int, db: Session = Depends(get_db)):
 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete_user(id: int, db: Session = Depends(get_db)):
+def delete_user(id: int, db: Session = Depends(get_db),
+            current_user = Depends(oauth2.get_current_user)):
     
     user_query = db.query(models.User).filter(models.User.id == id)
 
-    if user_query.first():
+    if user_query.first() and user_query.first() == current_user:
         user_query.delete(synchronize_session=False)
         db.commit()
     else: raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,

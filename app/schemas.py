@@ -64,3 +64,16 @@ class Vote(BaseModel):
     post_id: int
     dir: int
 
+
+class Comment(BaseModel):
+    comment: str
+
+
+class CreateComment(Comment):
+    pass
+
+
+class CommentResponse(Comment):
+    pass
+
+
