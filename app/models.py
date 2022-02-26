@@ -40,9 +40,11 @@ class Comment(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     content= Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False)
-    
+
+    post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     
+    post = relationship("Post")
     user = relationship("User")
 
 
