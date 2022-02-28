@@ -16,7 +16,6 @@ class Post(Base):
     # OTIONAL JSON BODY
     published = Column(Boolean, server_default='TRUE', nullable=False)
 
-    # Every post with the matching id will be deleted upon deleting the creator (user)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
     user = relationship("User")
@@ -55,7 +54,7 @@ class Comment(Base):
     post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     
-    post = relationship("Post")
+    # post = relationship("Post")
     user = relationship("User")
 
 

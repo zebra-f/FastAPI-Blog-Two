@@ -61,8 +61,7 @@ class PostResponse(Post):
     user_id: int 
     
     user: UserResponse
-    # TODO 
-    # comment: CommentResponse
+    # TODO: comment: CommentResponse
 
     class Config:
         orm_mode = True
