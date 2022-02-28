@@ -36,11 +36,33 @@ class UserResponse(UserProfileResponse):
         orm_mode = True
 
 
+class Comment(BaseModel):
+    content: str
+
+
+class CreateComment(Comment):
+    pass
+
+
+class CommentResponse(Comment):
+    id: int
+    created_at: datetime
+    user_id: int 
+
+    user: UserResponse
+    
+    class Config:
+        orm_mode = True
+
+
 class PostResponse(Post):
     id: int
     created_at: datetime
     user_id: int 
+    
     user: UserResponse
+    # TODO 
+    # comment: CommentResponse
 
     class Config:
         orm_mode = True
@@ -65,15 +87,6 @@ class Vote(BaseModel):
     dir: int
 
 
-class Comment(BaseModel):
-    comment: str
 
-
-class CreateComment(Comment):
-    pass
-
-
-class CommentResponse(Comment):
-    pass
 
 

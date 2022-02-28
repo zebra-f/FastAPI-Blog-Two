@@ -6,11 +6,15 @@ from .database import Base
 class Post(Base):
     __tablename__ = "posts"
 
+    # AUTO
     id = Column(Integer, primary_key=True, nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False)
+
+    # JSON BODY
     title = Column(String, nullable=False)
     content= Column(String, nullable=False)
+    # OTIONAL JSON BODY
     published = Column(Boolean, server_default='TRUE', nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False)
 
     # Every post with the matching id will be deleted upon deleting the creator (user)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
@@ -21,15 +25,19 @@ class Post(Base):
 class User(Base):
     __tablename__ = "users"
 
+    # AUTO
     id = Column(Integer, primary_key=True, nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False)
+
+    # JSON BODY
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
-    created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False)
 
 
 class Vote(Base):
     __tablename__ = 'votes'
 
+    # AUTO
     post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
 
@@ -37,9 +45,12 @@ class Vote(Base):
 class Comment(Base):
     __tablename__ = 'comments'
 
+    #AUTO
     id = Column(Integer, primary_key=True, nullable=False)
-    content= Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"), nullable=False)
+
+    #JSON BODY
+    content = Column(String, nullable=False)
 
     post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
