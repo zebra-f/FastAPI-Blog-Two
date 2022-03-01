@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict, List
 
 
 class Index(BaseModel):
@@ -11,6 +11,9 @@ class Post(BaseModel):
     title: str
     content: str
     published: bool = True
+
+    class Config:
+        orm_mode = True
 
 
 class CreatePost(Post):
@@ -24,6 +27,8 @@ class UpdatePost(Post):
 class UserProfileResponse(BaseModel):
     email: str
     created_at: datetime
+
+    post: List[Post]
 
     class Config:
         orm_mode = True

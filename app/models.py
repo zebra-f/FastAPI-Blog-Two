@@ -32,6 +32,8 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
 
+    post = relationship("Post")
+
 
 class Vote(Base):
     __tablename__ = 'votes'

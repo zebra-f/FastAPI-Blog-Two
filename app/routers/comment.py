@@ -12,10 +12,10 @@ router = APIRouter(
     tags=["Comments"]
 )
 
-
 # id refers to the post id 
 # c_id refers to the comment id
 
+# TODO: query check if post (id) exists 
 @router.get('/{id}/comments', response_model=List[schemas.CommentResponse], status_code=status.HTTP_200_OK)
 def get_comments(id: int, db: Session = Depends(get_db)):
 

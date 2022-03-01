@@ -15,6 +15,7 @@ router = APIRouter(
 
 @router.get('/', response_model=List[schemas.PostResponse], status_code=status.HTTP_200_OK)
 def get_posts(db: Session = Depends(get_db)):
+    
     posts = db.query(models.Post).all()
     return posts
 
