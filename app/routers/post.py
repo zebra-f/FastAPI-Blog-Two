@@ -1,6 +1,6 @@
 from fastapi import status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 from ..database import get_db
 from .. import models, schemas
@@ -19,6 +19,18 @@ def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return posts
 
+
+# qp refers to query parameters
+@router.get('/qp', response_model=List[schemas.PostResponse], status_code=status.HTTP_200_OK)
+def get_posts_qp(skip: Optional[int] = None, limit: int = 10, db: Session = Depends(get_db)):
+
+    if skip:
+        posts = db.query(models.Post).limit(limit).offset(skip).all()
+        return posts
+    else:
+        posts = db.query(models.Post).limit(limit).all()
+        return posts
+        
 
 # CREATE POST
 @router.post('/', response_model=schemas.PostResponse, status_code=status.HTTP_201_CREATED)
