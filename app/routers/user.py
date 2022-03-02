@@ -46,7 +46,7 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
         return new_user
 
 
-@router.get('/my_profile', response_model=schemas.UserProfileResponse, status_code=status.HTTP_200_OK)
+@router.get('/my_profile', response_model=schemas.UserMyProfileResponse, status_code=status.HTTP_200_OK)
 def get_logged_user_profile(db: Session = Depends(get_db),
     current_user = Depends(oauth2.get_current_user)):
     print("-------------------------------------------")

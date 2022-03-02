@@ -28,10 +28,12 @@ class UserProfileResponse(BaseModel):
     email: str
     created_at: datetime
 
-    post: List[Post]
-
     class Config:
         orm_mode = True
+
+
+class UserMyProfileResponse(UserProfileResponse):
+    post: List[Post]
 
 
 class UserResponse(UserProfileResponse):
