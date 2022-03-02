@@ -18,7 +18,7 @@ class Post(Base):
 
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
-    user = relationship("User")
+    user = relationship("User", back_populates="post")
 
 
 class User(Base):
@@ -32,7 +32,7 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
 
-    post = relationship("Post")
+    post = relationship("Post", back_populates="user")
 
 
 class Vote(Base):
