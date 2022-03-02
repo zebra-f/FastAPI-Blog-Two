@@ -93,6 +93,10 @@ class Vote(BaseModel):
     dir: int
 
 
+class VotesCount(BaseModel):
+    votes_count: int
+
+
 
 
 

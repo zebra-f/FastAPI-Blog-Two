@@ -12,6 +12,14 @@ router = APIRouter(
 )
 
 
+# id refers to post_id
+@router.get('/{id}', response_model=schemas.VotesCount, status_code=status.HTTP_200_OK)
+def get_post_votes(id: int, db: Session = Depends(get_db)):
+
+    votes_count = db.query(models.Vote).filter(models.Vote.post_id == id).count()
+    return {"votes_count": f"{votes_count}"}
+
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def vote(request: schemas.Vote, db: Session = Depends(get_db),
         current_user: int = Depends(oauth2.get_current_user)):
