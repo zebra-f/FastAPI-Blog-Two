@@ -22,15 +22,20 @@ def get_posts(db: Session = Depends(get_db)):
 
 # qp refers to query parameters
 @router.get('/qp', response_model=List[schemas.PostResponse], status_code=status.HTTP_200_OK)
-def get_posts_qp(skip: Optional[int] = None, limit: int = 10, db: Session = Depends(get_db)):
-
-    if skip:
-        posts = db.query(models.Post).limit(limit).offset(skip).all()
+def get_posts_qp(db: Session = Depends(get_db),              
+                limit: int = 10,
+                skip: Optional[int] = None,
+                search: Optional[str] = None):
+    
+    if search:
+        posts = db.query(models.Post).filter(
+            models.Post.title.contains(search)
+            ).limit(limit).offset(skip).all()
         return posts
     else:
-        posts = db.query(models.Post).limit(limit).all()
+        posts = db.query(models.Post).limit(limit).offset(skip).all()
         return posts
-        
+
 
 # CREATE POST
 @router.post('/', response_model=schemas.PostResponse, status_code=status.HTTP_201_CREATED)
