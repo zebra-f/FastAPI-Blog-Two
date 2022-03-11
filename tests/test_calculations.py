@@ -1,8 +1,18 @@
+import pytest
+
 from app.calculations import add, subtract, multiply, divide
 
 
-def test_add():
+@pytest.mark.parametrize("num1, num2, expected", [
+    (15, 7, 22),
+    (0, 2, 2),
+    (-2, -2, -4),
+    (-4, 1, -3)
+])
+def test_add(num1, num2, expected):
     print("testing addition")
+    assert add(num1, num2) == expected
+    
     assert add(3, 4) == 7
     assert add(1) == 3
 
