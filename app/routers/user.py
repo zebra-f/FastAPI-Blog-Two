@@ -30,11 +30,11 @@ def get_users(db: Session = Depends(get_db)):
 @router.post('/', response_model=schemas.UserResponse, status_code=status.HTTP_201_CREATED)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     
-    # check if request.email is already taken 
+    # [1/2 a] check if request.email is already taken 
     if db.query(models.User).filter(models.User.email == request.email).first():
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
                             detail=f"This email already exists")
-    # if not register new user
+    # [2/2 a] if not register a new user
     else:
         request.password = get_password_hash(request.password)
         new_user = models.User(**request.dict())
