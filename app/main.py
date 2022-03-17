@@ -1,14 +1,12 @@
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
-# Testing [1]
-from fastapi.testclient import TestClient
 
 from .database import engine
-from . import models, schemas
+from . import database, schemas
 from .routers import post, user, login, vote, comment
 
 
-models.Base.metadata.create_all(bind=engine)
+database.Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI(
@@ -28,9 +26,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-client = TestClient(app)
 
 
 app.include_router(post.router)

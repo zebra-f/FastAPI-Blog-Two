@@ -1,10 +1,10 @@
-from app.main import client
+from tests.deps.fastapi_test_client import client
 from app.utilities import b_pass
 from app import schemas
 
 
 def test_create_user():
-    email = "tests_user4@email.com"
+    email = "tests_user1@email.com"
     password = b_pass.get_password_hash("tests_password")
     
     response = client.post("/users/", json={

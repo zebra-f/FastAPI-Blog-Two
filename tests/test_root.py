@@ -1,4 +1,4 @@
-from app.main import client
+from tests.deps.fastapi_test_client import client
 
 
 def test_root():
