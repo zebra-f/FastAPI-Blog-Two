@@ -11,7 +11,7 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 
 
 # Dependency
-def override_get_db():
+def get_db_testing():
     db = TestingSessionLocal()
     try:
         yield db
