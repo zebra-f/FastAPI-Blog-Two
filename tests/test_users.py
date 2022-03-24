@@ -1,4 +1,4 @@
-from tests.deps.fastapi_test_client import client
+from tests.deps.fastapi_test_client import client, session
 from app.utilities import b_pass
 from app import schemas
 
