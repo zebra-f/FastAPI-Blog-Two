@@ -4,7 +4,7 @@ from app import schemas
 
 
 def test_create_user(client):
-    email = "tests_user1@email.com"
+    email = "test_user_1@email.com"
     password = b_pass.get_password_hash("tests_password")
     
     response = client.post("/users/", json={
