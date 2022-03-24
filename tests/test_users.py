@@ -3,7 +3,7 @@ from app.utilities import b_pass
 from app import schemas
 
 
-def test_create_user():
+def test_create_user(client):
     email = "tests_user1@email.com"
     password = b_pass.get_password_hash("tests_password")
     

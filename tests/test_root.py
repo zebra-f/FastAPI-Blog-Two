@@ -1,7 +1,7 @@
 from tests.deps.fastapi_test_client import client
 
 
-def test_root():
+def test_root(client):
     res = client.get("/")
 
     assert res.status_code == 200
