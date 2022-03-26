@@ -1,6 +1,3 @@
-from tests.deps.fastapi_test_client import client, session
-
-
 def test_root(client):
     res = client.get("/")
 
