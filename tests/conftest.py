@@ -6,7 +6,7 @@ from app.database import Base, get_db
 from .deps.database_test_session import engine, TestingSessionLocal
 
 
-@fixture(scope="module")
+@fixture
 def session():
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
@@ -19,7 +19,7 @@ def session():
         db.close()
 
 
-@fixture(scope="module")
+@fixture
 def client(session):
     def override_get_db():
             yield session
