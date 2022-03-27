@@ -40,6 +40,8 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
     
     alpha_count, digit_count, special_count = 0, 0, 0
     for char in request.password:
+        if alpha_count >= 4 and digit_count >= 2 and special_count >= 1:
+            break
         if char.isalpha(): alpha_count += 1
         elif char.isdigit(): digit_count += 1
         else: special_count += 1
@@ -47,7 +49,6 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
     if alpha_count < 4 or digit_count < 2 or special_count < 1:
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
                             detail=f"Password should contain at least 4 letter, 2 digits and 1 special character")
-
 
     # [1/2 a] check if request.email is already taken 
     if db.query(models.User).filter(models.User.email == request.email).first():
