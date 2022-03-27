@@ -31,7 +31,7 @@ def client(session):
 @fixture
 def test_user(client):
     email = "test_user_1@fastapi.com"
-    password = "test_password"
+    password = "test_password_*47"
 
     response = client.post("/users/", json={
         "email": email,
