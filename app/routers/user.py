@@ -30,6 +30,25 @@ def get_users(db: Session = Depends(get_db)):
 @router.post('/', response_model=schemas.UserResponse, status_code=status.HTTP_201_CREATED)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     
+    # password requirements 
+    if len(request.password) < 8:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                            detail=f"Password should not be shorter than 8 charachters")
+    elif len(request.password) > 4096:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                            detail=f"Password should not be longer than 4096 charachters")
+    
+    alpha_count, digit_count, special_count = 0, 0, 0
+    for char in request.password:
+        if char.isalpha(): alpha_count += 1
+        elif char.isdigit(): digit_count += 1
+        else: special_count += 1
+    
+    if alpha_count < 4 or digit_count < 2 or special_count < 1:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                            detail=f"Password should contain at least 4 letter, 2 digits and 1 special character")
+
+
     # [1/2 a] check if request.email is already taken 
     if db.query(models.User).filter(models.User.email == request.email).first():
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
