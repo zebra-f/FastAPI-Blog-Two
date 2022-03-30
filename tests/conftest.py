@@ -4,6 +4,7 @@ from pytest import fixture
 from app.main import app
 from app.database import Base, get_db
 from .deps.database_test_session import engine, TestingSessionLocal
+from app.utilities.oauth2 import create_access_token
 
 
 @fixture
@@ -45,3 +46,17 @@ def test_user(client):
 
     return new_user
     
+
+@fixture
+def token(test_user):
+    return create_access_token({"user_id": test_user['id']})
+
+
+@fixture
+def client_authorized(client, token):
+    client.headers = {
+        **client.headers,
+        "Authorization": f"Bearer {token}"
+    }
+
+    return client
