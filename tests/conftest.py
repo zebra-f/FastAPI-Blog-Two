@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 from pytest import fixture
 
 from app.main import app
+from app import models
 from app.database import Base, get_db
 from .deps.database_test_session import engine, TestingSessionLocal
 from app.utilities.oauth2 import create_access_token
@@ -60,3 +61,45 @@ def client_authorized(client, token):
     }
 
     return client
+
+
+@fixture
+def test_posts(test_user, session):
+    posts = [
+        {
+            "title": "fixture test title 1",
+            "content": "fixture test content title 1",
+            "published": True,
+            "user_id": test_user['id']
+        },
+        {
+            "title": "fixture test title 2",
+            "content": "fixture test content title 2",
+            "published": True,
+            "user_id": test_user['id']
+        },
+        {
+            "title": "fixture test title 3",
+            "content": "fixture test content title 3",
+            "published": False,
+            "user_id": test_user['id']
+        },        {
+            "title": "fixture test title 4",
+            "content": "fixture test content title 4",
+            "published": False,
+            "user_id": test_user['id']
+        },        {
+            "title": "fixture test title 5",
+            "content": "fixture test content title 5",
+            "published": True,
+            "user_id": test_user['id']
+        },
+    ]
+
+    posts_map = map(lambda post: models.Post(**post), posts)
+    
+    session.add_all(list(posts_map))
+    session.commit()
+
+    posts = session.query(models.Post).all()
+    

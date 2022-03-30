@@ -1,13 +1,13 @@
-def test_get_posts(client):
+def test_get_posts(client, test_posts):
     res = client.get('/posts/')
-
+    print(res.json())
     assert res.status_code == 200
 
 
 def test_create_post(client_authorized):
     res = client_authorized.post('/posts/', json={
-        "title": "Test Title 1",
-        "content": "Test Content 1",
+        "title": "test title 1",
+        "content": "test tontent 1",
         "published": True
     })
 
