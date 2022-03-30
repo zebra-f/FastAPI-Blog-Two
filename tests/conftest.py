@@ -102,4 +102,4 @@ def test_posts(test_user, session):
     session.commit()
 
     posts = session.query(models.Post).all()
-    
+    return posts
