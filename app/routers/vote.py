@@ -22,7 +22,7 @@ def get_post_votes(id: int, db: Session = Depends(get_db)):
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def vote(request: schemas.Vote, db: Session = Depends(get_db),
-        current_user: int = Depends(oauth2.get_current_user)):
+        current_user = Depends(oauth2.get_current_user)):
     
     vote_query = db.query(models.Vote).filter(
         models.Vote.post_id == request.post_id, models.Vote.user_id == current_user.id)
