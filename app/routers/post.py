@@ -39,7 +39,7 @@ def get_posts_qp(db: Session = Depends(get_db),
 
 # CREATE POST
 @router.post('/', response_model=schemas.PostResponse, status_code=status.HTTP_201_CREATED)
-def create_posts(request: schemas.CreatePost, db: Session = Depends(get_db),
+def create_post(request: schemas.CreatePost, db: Session = Depends(get_db),
             current_user = Depends(oauth2.get_current_user)):
     
     new_post = models.Post(
